@@ -1,0 +1,672 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="stylesheet" href=https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <title>MapMe</title>
+</head>
+
+<style>
+  .cute {
+    margin-top: 10px;
+    margin-right: 80px;
+    margin-left: 50px;
+  }
+
+  .wide {
+    display: block;
+    margin-bottom: 1;
+  }
+
+  .header {
+    padding: 40px;
+    text-align: left;
+    background: #0f4577;
+    color: white;
+    font-size: 15px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+  }
+
+  .banner{
+    background-image: linear-gradient(to right, #64b3f4, #c2e59c);
+    height: 137px;
+    display: flex;
+  }
+</style>
+
+<body>
+
+  <div class="banner">
+    <img class='logo' src="/files/images/earth-only.png" style="max-height: 137px; align-items: left;" ></img>
+    <img class='logo' src="/files/images/map only.png" style="max-height: 137px; align-items: right;"></img>
+  </div>
+
+  <form class="user-input" style="position: absolute; width: 60%;">
+    <br class="wide"></br>
+    <div class="cute">
+
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Location (Where are you traveling within?)"
+          id="autocomplete"></input>
+      </div>
+
+      <div class="radius-input">
+        <input type="number" class="form-control" placeholder="Radius (miles)" id="radius">
+      </div>
+
+      <br>
+      
+      <select id = "modeOfTransportSelect" class="form-control">
+        <option id="mode">(Mode of Transport)</option>
+        <option id="DRIVING">DRIVING</option>
+        <option id="TRANSIT">TRANSIT</option>
+        <option id="WALKING">WALKING</option>
+        <option id="BICYCLING">BICYCLING</option>
+      </select>
+
+      <br>
+
+      <div class="input-group-append">
+        <button onclick="search()" class="btn btn-info" type="button">Search!</button>
+      </div>
+
+    </div>
+  </form>
+  <br></br>
+
+  <form class="check input">
+
+    <table style="position: absolute; left: 60%; width: 40%;">
+      <tr>
+        <td>
+          <img src="/files/images/thumbnail_restaurant.png" width="20">
+        </td>
+        <td>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="restaurant" value="option1">
+            <label class="form-check-label" for="restaurant">Restaurant</label>
+          </div>
+        </td>
+        <td>
+          <img src="/files/images/thumbnail_shopping mall.jpg" width="20">
+        </td>
+        <td>
+          <!-- <form class="check input" id="my-form"> -->
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="shopping_mall" value="option2" form="my-form">
+            <label class="form-check-label" for="shopping_mall">Shopping Mall</label>
+          </div>
+          <!-- </form> -->
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <img src="/files/images/book store.jfif" width="20">
+        </td>
+        <td>
+          <!-- <form class="check input" id="my-form"> -->
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="book_store" value="option3" form="my-form">
+            <label class="form-check-label" for="book_store">Book Store</label>
+          </div>
+          <!-- </form> -->
+        </td>
+        <td>
+          <img src="/files/images/park.jfif" width="20">
+        </td>
+        <td>
+          <!-- <form class="check input" id="my-form"> -->
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="park" value="option4" form="my-form">
+            <label class="form-check-label" for="park">Park</label>
+          </div>
+          <!-- </form> -->
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <img src="/files/images/university.png" width="20">
+        </td>
+        <td>
+          <!-- <form class="check input" id="my-form"> -->
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="university" value="option5" form="my-form">
+            <label class="form-check-label" for="university">University</label>
+          </div>
+          <!-- </form> -->
+        </td>
+        <td>
+          <img src="/files/images/amusement park.png" width="20">
+        </td>
+        <td>
+          <!-- <form class="check input" id="my-form"> -->
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="amusement_park" value="option6">
+            <label class="form-check-label" for="amusement_park">Amusement Park</label>
+          </div>
+          <!-- </form> -->
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <img src="/files/images/museum.png" width="20">
+        </td>
+        <td>
+          <!-- <form class="check input" id="my-form"> -->
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="museum" value="option7">
+            <label class="form-check-label" for="museum">Museum</label>
+          </div>
+          <!-- </form> -->
+        </td>
+        <td>
+          <img src="/files/images/tourist attraction.png" width="20">
+        </td>
+        <td>
+          <!-- <form class="check input" id="my-form"> -->
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="tourist_attraction" value="option8">
+            <label class="form-check-label" for="tourist_attraction">Tourist Attraction</label>
+          </div>
+          <!-- </form> -->
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <img src="/files/images/bakery.jfif" width="20">
+        </td>
+        <td>
+          <!-- <form class="check input" id="my-form"> -->
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="bakery" value="option9">
+            <label class="form-check-label" for="bakery">Bakery</label>
+          </div>
+          <!-- </form> -->
+        </td>
+        <td>
+          <img src="/files/images/movie theater.jfif" width="20">
+        </td>
+        <td>
+          <!-- <form class="check input" id="my-form"> -->
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="movie_theater" value="option10">
+            <label class="form-check-label" for="movie_theater">Movie Theater</label>
+          </div>
+          <!-- </form> -->
+        </td>
+       </tr>
+    </table>
+  </form>
+        
+  <form>
+    <br class="wide"></br>
+    <div class="cute">
+
+      <!--inline checkboxes-->
+
+    </div>
+  </form>
+
+<tr>
+  <div class="input-group mb-3" style="position: 40; left: 60%; width: 40%; margin-top: 10%;">
+    <input type="text" class="form-control" placeholder="Type in new location" id = "autocompleteAdded"></input>
+    <div class="input-group-append">
+      <button onclick = "add()" class="btn btn-info" type="button">+</button>
+    </div>
+  </div>
+</tr>
+
+  <table class=" table table-bordered" style="position: absolute; left: 60%; width: 40%;" id="table">
+    <tr>
+         <th>🎯</th>
+         <th>📸</th>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Est. Time Duration (mins)</th>
+    </tr>
+  </table>
+</body>
+
+<script async defer
+  src=https://maps.googleapis.com/maps/api/js?key=AIzaSyDkP-qn4yJDA4PuE7OZ7HbGXV1w62THblk&libraries=places&callback=initMap
+  type="text/javascript"></script>
+
+<div id="map" style="height: 900px; width: 60%; margin-top: 0%;"></div>
+
+<script>
+
+  let inputPlaces;
+  let placeArray;
+  let namesArray;
+  let optimizedRoute;
+  let modeOfTransport;
+  let res;
+
+  function search() {
+    inputPlaces = [];
+    placeArray = [];
+    namesArray = [];
+    optimizedRoute = [];
+    res = [];
+
+    //console.log(document.getElementById('radius').value)
+    var inputText = document.getElementById('autocomplete').value
+
+    // hardcoded - we should fix later
+    if (document.getElementById('restaurant').checked) {
+      inputPlaces.push('restaurant')
+    }
+    if (document.getElementById('shopping_mall').checked) {
+      inputPlaces.push('shopping_mall')
+    }
+    if (document.getElementById('book_store').checked) {
+      inputPlaces.push('book_store')
+    }
+    if (document.getElementById('park').checked) {
+      inputPlaces.push('park')
+    }
+    if (document.getElementById('university').checked) {
+      inputPlaces.push('university')
+    }
+    if (document.getElementById('amusement_park').checked) {
+      inputPlaces.push('amusement_park')
+    }
+    if (document.getElementById('museum').checked) {
+      inputPlaces.push('museum')
+    }
+    if (document.getElementById('tourist_attraction').checked) {
+      inputPlaces.push('tourist_attraction')
+    }
+    if (document.getElementById('bakery').checked) {
+      inputPlaces.push('bakery')
+    }
+    if (document.getElementById('movie_theater').checked) {
+      inputPlaces.push('movie_theater')
+    }
+
+    //for modeOfTransport
+    // if(document.getElementById('drive').checked){
+    //   modeOfTransport='DRIVING'
+    // }
+
+    modeOfTransport = document.getElementById('modeOfTransportSelect').value;
+    console.log(modeOfTransport);
+
+    var entry = inputText.toString();
+    findPoint();
+  }
+
+  function type(value) {
+    return typeof value;
+  }
+
+  let autocomplete;
+  let autocompleteAdded;
+  var geocoder;
+  let map;
+  let service;
+  let infowindow;
+  let place;
+  let waypointOrder;
+
+  initMap = function () {
+    map = new google.maps.Map(document.getElementById("map"),
+      {
+        zoom: 4,
+        center: { lat: 47.6, lng: -122.1 }
+      });
+
+    geocoder = new google.maps.Geocoder();
+    directionsService = new google.maps.DirectionsService();
+    directionsRenderer = new google.maps.DirectionsRenderer();
+
+    directionsRenderer.setMap(map);
+
+    autocomplete = new google.maps.places.Autocomplete(
+      document.getElementById('autocomplete'),
+      {
+        fields: ['place_id', 'geometry', 'name']
+      }
+    );
+
+    autocompleteAdded = new google.maps.places.Autocomplete(
+      document.getElementById('autocompleteAdded'),
+      {
+        fields: ['place_id', 'geometry', 'name']
+      }
+    );
+
+    autocomplete.bindTo('bounds', map);
+    autocompleteAdded.bindTo('bounds', map);
+
+    google.maps.event.addListener(autocomplete, 'place_changed', () => {
+      place = autocomplete.getPlace()
+      //console.log(place)
+      //console.log(inputPlaces.toString())
+    });
+
+    google.maps.event.addListener(autocompleteAdded, 'place_changed', () => {
+      placeAdded = autocompleteAdded.getPlace()
+      //console.log(place)
+      //console.log(inputPlaces.toString())
+    });
+
+    //google.maps.event.addDomListener(window, 'load', initialize);
+
+  }
+
+  findPoint = function () {
+    for (let i = 0; i < inputPlaces.length; i++) {
+      let request = {
+        location: place.geometry.location,
+        radius: document.getElementById('radius').value * 1609.344,
+        type: [inputPlaces[i]]
+      }
+
+      service = new google.maps.places.PlacesService(map)
+      service.nearbySearch(request, callback)
+
+      console.log("request radius", request.radius)
+    }
+
+    setTimeout(function () { calcRoute(); }, 1000);
+    setTimeout(function () { console.log(placeArray.toString()); }, 5000);
+    //console.log(placeArray.toString());
+  };
+
+  function filterNearbySearchOutput(nearbySearchOuput) {
+    var rating = 1.0;
+    let topLocation;
+    for (let index = 0; index < nearbySearchOuput.length; index++) {
+      let place = nearbySearchOutput[index];
+      if (place.rating > rating) {
+        if (place.open_now) {
+          topLocation = place;
+          rating = place.rating;
+        }
+      }
+    }
+  }
+
+    function calcRoute() {
+      return new Promise((resolve, reject) => {
+        const waypoints = [];
+        //const placeArray = ["portland, or", "san francisco, ca", "las vegas, nevada", "grand canyon, arizona"];
+        var request = {
+          origin: placeArray[0],
+          destination: placeArray[placeArray.length - 1],
+          waypoints: waypoints,
+          optimizeWaypoints: true,
+          travelMode: modeOfTransport
+        };
+        //console.log(placeArray.toString());
+        pushWayPoints(placeArray, waypoints);
+        directionsService.route(request, function(result, status) {
+          if (status == 'OK') {
+            directionsRenderer.setDirections(result);
+            waypointOrder = result.routes[0].waypoint_order;
+            console.log("place array: ", placeArray);
+            console.log("Optimized waypoint order:", waypointOrder);
+
+            setTimeout(function() {fillTable();}, 2000);
+            resolve("worked");
+          }
+          else {
+            reject(status);
+          }
+          ///////console.log("result " + result.toString());
+        });
+      });
+      }
+
+  function pushWayPoints(placeArray, waypoints) {
+    for (let index = 1; index < placeArray.length - 1; index++) {
+      waypoints.push({
+        location: placeArray[index],
+        stopover: true
+      });
+    }
+  }
+
+    function codeAddress(addressInput) {
+      return new Promise((resolve, reject) => {
+        var codedAddress;
+        geocoder.geocode( { address: addressInput}, function(results, status) {
+          if (status == google.maps.GeocoderStatus.OK) {
+            map.setCenter(results[0].geometry.location);
+            map.zoom = 6;
+            var marker = new google.maps.Marker({
+                map: map,
+                position: results[0].geometry.location
+            });
+            codedAddress = results[0].geometry.location;
+            //console.log("this should be some object", codedAddress.lat());
+            resolve(codedAddress);
+          }
+          else {
+            reject(status);
+          }
+        });
+      });
+    }
+
+  function reverseGeocode(location) {
+    return new Promise((resolve, reject) => {
+      const latlng = {
+        lat: parseFloat(location.lat()),
+        lng: parseFloat(location.lng())
+      }
+      geocoder.geocode({ location: latlng }, function (results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+          const address = results[0].formatted_address;
+          console.log(address);
+          resolve(address);
+        } else {
+          reject(status);
+        }
+      });
+    });
+  }
+
+  async function callback(results, status) {
+    var rating = 1.0;
+    var topLocation;
+    var minRatingCount = 1000000;
+    var maxRatingCount = 0;
+    var maxPlaceScore = 0;
+
+    if (status == google.maps.places.PlacesServiceStatus.OK) {
+      // if only 1 place returned by nearbySearch...
+      if (results.length == 1) {
+        topLocation = results[0];
+
+        console.log(topLocation);
+        console.log(topLocation.rating);
+        console.log(topLocation.user_ratings_total);
+        console.log(topLocation.name);
+        console.log(topLocation.vicinity);
+        const address = await reverseGeocode(topLocation.geometry.location);
+        if (!(namesArray.includes(topLocation.name))) {
+          placeArray.push(address);
+          namesArray.push(topLocation.name);
+          res.push(topLocation);
+        }
+      }
+      if (results.length > 1) {
+        // if multiple places to consider...
+        // 1st for loop - finding min and max rating counts
+        for (var i = 0; i < results.length; i++) {
+          var place = results[i];
+          if (place.rating !== undefined) {
+            if (place.user_ratings_total < minRatingCount) {
+              minRatingCount = place.user_ratings_total;
+            }
+            if (place.user_ratings_total > maxRatingCount) {
+              maxRatingCount = place.user_ratings_total;
+            }
+          }
+        }
+
+        // 2nd for loop - finding optimal place
+        for (var i = 0; i < results.length; i++) {
+          var place = results[i];
+          if (place.rating !== undefined) {
+            var normalized_n = normalize(place.user_ratings_total, minRatingCount, maxRatingCount);
+            var placeScore = calculatePlaceScore(place.rating, normalized_n);
+            if (placeScore > maxPlaceScore) {
+              topLocation = place;
+              maxPlaceScore = placeScore;
+            }
+          }
+        }
+        console.log(topLocation);
+        console.log(topLocation.rating);
+        console.log(topLocation.user_ratings_total);
+        console.log(topLocation.name);
+
+        const address = await reverseGeocode(topLocation.geometry.location);
+        if (!(namesArray.includes(topLocation.name))) {
+          res.push(topLocation);
+          placeArray.push(address);
+          namesArray.push(topLocation.name);
+        }
+        console.log(maxPlaceScore);
+      }
+    }
+  }
+
+  function normalize(val, min, max) {
+    return (val - min) / (max - min);
+  }
+
+  // y = ar + bn; a and b are coefficients, r = avg rating, n = normalized value of num ratings
+  function calculatePlaceScore(r, n) {
+    let a = 1.2;
+    let b = 0.85;
+    return (a * r + b * n);
+  }
+    
+  async function add() {
+
+    console.log("checking if input processed", document.getElementById("autocompleteAdded").value)
+    var newPlace = await codeAddress(document.getElementById("autocompleteAdded").value)
+    console.log(newPlace.lat());
+    const address = await reverseGeocode(newPlace);
+    console.log(address);
+
+    placeArray.push(address);
+    namesArray.push(document.getElementById("autocompleteAdded").value.substr(0, document.getElementById("autocompleteAdded").value.indexOf(','))); // substring
+
+    var plotRoute = await calcRoute();
+    console.log(plotRoute);
+
+  }
+    
+  function createMarker(place) {
+
+    var marker = new google.maps.Marker({
+      map: map,
+      position: place.geometry.location
+    });
+
+    google.maps.event.addListener(marker, 'click', function () {
+      alert(place.name);
+      window.open(place.photos[0].getUrl(), "_blank");
+    });
+  }
+    
+  function calcTime(place) { 
+
+    let base = 30; 
+
+    if(place === 0) {
+      return base;
+    }
+
+    let activities = place.types.length;
+
+    for (let i = 0; i < activities; i++) {
+
+      let location = place.types[i];
+
+      if (location === "restaurant") base *= 1.5; 
+      if (location === "shopping_mall") base *= 4;
+      if (location === "book_store") base *= 0.75;
+      if (location === "park") base *= 1.25;
+      if (location === "university") base *= 4; 
+      if (location === "amusement_park") base *= 8;
+      if (location === "museum") base *= 3; 
+      if (location === "tourist_attraction") base *= 1.5;
+      if (location === "movie_theater") base *= 2.5;
+
+    }
+
+    let ret = Math.round(base / 10) * 10;
+    console.log(ret); 
+    return ret;
+  }
+
+  function iconAssign(location) {
+    console.log(location.types);
+    if (location === "hi") {
+      return "/files/images/tourist attraction.png\""
+    }
+    if (location.types === undefined) {
+      return "/files/images/tourist attraction.png\""
+    }
+    if(location.types[0] == 'restaurant') {
+      return "/files/images/thumbnail_restaurant.png\"" 
+    }
+    else if(location.types[0] == 'shopping_mall') {
+      return "/files/images/thumbnail_shopping mall.jpg\""
+    }
+    else if(location.types[0] == 'book_store') {
+      return "/files/images/book store.jfif\""
+    }
+    else if(location.types[0] == 'park') {
+      return "/files/images/park.jfif\""
+    }
+    else if(location.types[0] == 'university') {
+      return "/files/images/university.png\""
+    }
+    else if(location.types[0] == 'amusement_park') {
+      return "/files/images/amusement park.png\""
+    }
+    else if(location.types[0] == 'tourist_attraction') {
+      return "/files/images/tourist attraction.png\""
+    }
+    else if(location.types[0] == 'movie_theater') {
+      return "/files/images/movie theater.jfif\""
+    }
+    else if(location.types[0] == 'museum') {
+      return "/files/images/museum.png\""
+    }
+    else if(location.types[0] == 'bakery') {
+      return "/files/images/bakery.jfif\""
+    }
+    else {
+      return "/files/images/tourist attraction.png\""
+    }
+  }
+
+  function fillTable() {
+    alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    console.log("place Array", placeArray);
+    console.log("res", res); 
+    console.log("names array", namesArray)
+    let table = document.getElementById("table"); 
+    table.innerHTML = '<tr><th>🎯</th><th>📸</th><th>Name</th><th>Address</th><th>Est. Time Duration (mins)</th></tr>';
+    table.innerHTML += "<tr><td>" + alphabet[0] + "</td><td><img src=\"" + iconAssign(res[0]) + "width = 30px></td><td><mark>" + namesArray[0] + "</mark></td><td>" + placeArray[0].toString() + "</td><td>" + calcTime(res[0]) + "</td></tr>";
+    for (let i = 0; i < waypointOrder.length; i++) {
+      table.innerHTML += "<tr><td>" + alphabet[i + 1] + "</td><td><img src=\"" + iconAssign(res[waypointOrder[i] + 1]) + "width = 30px></td><td><mark>" + namesArray[waypointOrder[i] + 1] + "</mark></td><td>" + placeArray[waypointOrder[i] + 1].toString() + "</td><td>" + calcTime(res[waypointOrder[i] + 1]) + "</td></tr>";
+    }
+    table.innerHTML += "<tr><td>" + alphabet[waypointOrder.length + 1] + "</td><td><img src =\"" + iconAssign("hi") + "width = 30px></td><td><mark>"  + namesArray[waypointOrder.length + 1] + "</mark></td><td>" + placeArray[waypointOrder.length + 1].toString() + "</td><td>" + (Math.round((Math.random() * 50 + 30) / 10) * 10) + "</td></tr>";
+  }
+
+</script>
+</html>
